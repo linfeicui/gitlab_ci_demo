@@ -11,6 +11,7 @@ build_job:
   stage: build
   script:
     - echo "Release build..."
+    - gradle build
 
 test_job:
   stage: test
