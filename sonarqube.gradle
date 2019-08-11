@@ -48,6 +48,8 @@ sonarqube {
         property "sonar.java.source", Helper.readParam("sourceCompatibility")
         property "sonar.java.binaries", "build/classes/java/main/"
         property "sonar.java.test.binaries", "build/classes/java/test/"
+        property "sonar.login","admin"
+        property "sonar.password","admin"
 
         property "sonar.java.coveragePlugin", "jacoco"
         property "sonar.jacoco.reportPaths", "$buildDir/jacoco/test.exec"
