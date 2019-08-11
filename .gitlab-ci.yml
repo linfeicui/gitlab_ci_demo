@@ -16,6 +16,7 @@ test_job:
   stage: test
   script:
     - echo "Tests run..."
+    - ls
     - cd ci_test
     - gradle test
     - gradle jacocoTestReport
