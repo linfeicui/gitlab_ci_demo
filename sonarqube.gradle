@@ -37,7 +37,6 @@ apply plugin: "org.sonarqube"
 sonarqube {
     properties {
         property "sonar.host.url", "http://192.168.23.101:9000"
-
         property "sonar.scm.provider", "git"
         property "sonar.projectName", Helper.readParam("artifactId")
         property "sonar.projectKey", Helper.readParam("artifactId")
