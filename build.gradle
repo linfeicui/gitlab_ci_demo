@@ -1,7 +1,10 @@
 plugins {
+    id 'org.springframework.boot' version '2.1.5.RELEASE'
     id 'java'
 }
 
+apply plugin: 'io.spring.dependency-management'
+apply plugin: "jacoco"
 group 'org.virtuex'
 version '1.0-SNAPSHOT'
 
@@ -12,5 +15,7 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    //log4j2jar包
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

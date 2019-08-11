@@ -3,6 +3,7 @@ image: virtuex/base_java_env:gradle-4.10.2-openjdk-7-openjdk-8-docker-18
 stages:
   - build
   - test
+  - sonarqube
 
 before_script:
   - echo "Restoring Packages..."
@@ -17,4 +18,12 @@ test_job:
   stage: test
   script:
     - echo "Tests run..."
+    - gradle test
+    - gradle jacocoTestReport
+
+sonar_job:
+  stage: sonarqube
+  script:
+    - echo "Tests run..."
+    -   - gradle -b sonarqube.gradle sonarqube -Dsonar.analysis.mode="${MODE}" -Dsonar.gitlab.project_id=$CI_PROJECT_PATH -Dsonar.gitlab.commit_sha=$CI_COMMIT_SHA -Dsonar.gitlab.ref_name=$CI_COMMIT_REF_NAME
 

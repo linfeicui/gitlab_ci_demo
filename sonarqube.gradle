@@ -1,0 +1,95 @@
+// file coding UTF-8
+
+// 拆分 sonarqube，目前来看 sonarqube必须用jdk8，而我们的项目却使用的jdk7，甚至jdk6
+
+// 使用方法：
+//  gradle test
+//  gradle -b sonarqube.gradle sonarqube
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        // 需要jdk1.8以上，配置gradle的运行环境为1.8即可，与项目编译等级无关
+        // 1.1 及以下版本，要求jdk6+、gradle2， 同时也受服务器版本限制, sonar7要求jdk8+
+        // 1.2 及以上版本，要求jdk8+、gradle4+， 同时也受服务器版本限制
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
+
+    }
+
+    configurations.all {
+
+        // 如果没有 'buildscript' 声明，应将 'configurations.all' 至于顶层
+
+        // for ideaUI 新版本支持手动刷新依赖包，在gradle标签页右键菜单中，点击'refresh dependencies'
+        // for other  手动刷新依赖包，执行 "gradle build --refresh-dependencies"
+
+        // for SNAPSHOT(changing), SNAPSHOT versions are treated as "changing" by default (if Maven repo is used)
+        resolutionStrategy.cacheChangingModulesFor(0, 'seconds')
+        // for +(加号,dynamic)
+        resolutionStrategy.cacheDynamicVersionsFor(0, 'seconds')
+    }
+}
+
+apply plugin: "org.sonarqube"
+
+sonarqube {
+    properties {
+        property "sonar.host.url", "http://192.168.23.101:9000"
+
+        property "sonar.scm.provider", "git"
+        property "sonar.projectName", Helper.readParam("artifactId")
+        property "sonar.projectKey", Helper.readParam("artifactId")
+        property "sonar.projectVersion", Helper.readParam("mainVersion")
+        property "sonar.language", "java"
+        property "sonar.sourceEncoding", Helper.readSourceFileEncoding()
+        property "sonar.sources", "src/main/java"
+        property "sonar.tests", "src/test/java"
+        property "sonar.java.source", Helper.readParam("sourceCompatibility")
+        property "sonar.java.binaries", "build/classes/java/main/"
+        property "sonar.java.test.binaries", "build/classes/java/test/"
+
+        property "sonar.java.coveragePlugin", "jacoco"
+        property "sonar.jacoco.reportPaths", "$buildDir/jacoco/test.exec"
+    }
+
+}
+
+
+class Helper {
+
+    def static readSourceFileEncoding() {
+        def fileEncoding = readParam("encoding")
+        if (fileEncoding == null) {
+            fileEncoding = "UTF-8"
+        }
+        return fileEncoding
+    }
+
+    def static readParam(String paramKey) {
+        new File("build.gradle").withReader("UTF-8", ({ reader ->
+            while (reader.ready()) {
+                def line = reader.readLine()
+                if (line.contains("${paramKey} =")) {
+
+                    def paramValue = line.substring(line.indexOf("${paramKey} =") + "${paramKey} =".length() + 1, line.length())
+                    paramValue = paramValue.trim()
+
+                    if (paramValue.startsWith("\"")
+                            || paramValue.startsWith("'")) {
+                        paramValue = paramValue.substring(1, paramValue.length())
+
+                    }
+                    if (paramValue.endsWith("\"")
+                            || paramValue.endsWith("'")) {
+                        paramValue = paramValue.substring(0, paramValue.length() - 1)
+                    }
+                    return paramValue
+                }
+            }
+            return null
+        } as Closure<String>))
+
+    }
+}
