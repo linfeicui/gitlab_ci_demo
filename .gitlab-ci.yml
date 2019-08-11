@@ -1,9 +1,5 @@
 image: virtuex/base_java_env:gradle-4.10.2-openjdk-7-openjdk-8-docker-18
 
-job:
-  tags:
-    - ci-test
-
 stages:
   - build
   - test
@@ -15,12 +11,10 @@ build_job:
   stage: build
   script:
     - echo "Release build..."
-  except:
-    - tags
+
 
 test_job:
   stage: test
   script:
     - echo "Tests run..."
-    - cd cds.ci.test
-    - gradle test
+
