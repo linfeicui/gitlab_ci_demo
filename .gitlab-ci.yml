@@ -14,9 +14,14 @@ prepare_job:
     - echo ${DB_PATH}
 services:
   - name: virtuex/mysql_env:mysql-5.7-openjdk-7
+connect:
+  image: mysql
+  script:
+    - echo "SELECT 'OK';" | mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
+
 variables:
-  MYSQL_DATABASE: "<your_mysql_database>"
-  MYSQL_ROOT_PASSWORD: "<your_mysql_password>"
+  MYSQL_DATABASE: ${DB_PATH}
+  MYSQL_ROOT_PASSWORD: "root123"
 
 integration_test_job:
   stage: integration-test
