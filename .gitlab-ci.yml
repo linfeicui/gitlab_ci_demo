@@ -7,15 +7,17 @@ variables:
   MYSQL_DATABASE: test_database # Created at image startup
   MYSQL_ROOT_PASSWORD: super-secret-password
 
-job1:
-  script:
-    - echo Running job1...
-    - echo "SELECT 'OK';" | mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
 
 stages:
+  - test
   - integration-test
   - build
   - unit-test
+job1:
+  stage: test
+  script:
+    - echo Running job1...
+    - echo "SELECT 'OK';" | mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
 
 
 integration_test_job:
