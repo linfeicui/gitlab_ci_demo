@@ -13,7 +13,7 @@ gitab_mysql_service:
   stage: run_jobs
   image: alpine:latest
   services:
-    - mysql: 5.7
+    - mariadb: latest
   script:
     - mysql --version
     - sleep 20
