@@ -2,7 +2,8 @@ image: virtuex/base_java_env:gradle-4.10.2-openjdk-7-openjdk-8-docker-18
 
 stages:
   - build
-  - test
+  - unit-test
+  - integration-test
 
 before_script:
   - echo "Reset JDK..."
@@ -16,11 +17,27 @@ build_job:
     - gradle build
 
 test_job:
-  stage: test
+  stage: unit-test
   script:
-    - echo "Tests run..."
+    - echo "Unit Tests run..."
     - gradle test
     - gradle jacocoTestReport
     - gradle -b sonarqube.gradle sonarqube -Dsonar.analysis.mode="${MODE}" -Dsonar.gitlab.project_id=$CI_PROJECT_PATH -Dsonar.gitlab.commit_sha=$CI_COMMIT_SHA -Dsonar.gitlab.ref_name=$CI_COMMIT_REF_NAME
 
+integration_test_job:
+  stage: integration-test
+  script:
+    - echo "Integration testing run..."
+    - echo "git clone xxxx.git"
+    # 可以结合application插件，打成可执行jar
+    - echo "gradle distZip"
+    # zipb包的目录大概是：
+    #  - xxx.zip
+    #     -/bin
+    #        -/启动脚本
+    #     -/lib
+    #        -/依赖的jar
+    - echo "unzio xxx.zip"
+    - echo "sh /xx/bin/start.sh"
+    - echo "start integeration testing!"
 
