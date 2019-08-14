@@ -14,8 +14,8 @@ build_job:
   stage: build
   script:
     - echo "Release build..."
-    - gradle build
-
+#    - gradle build
+    - gradle compileJava
 test_job:
   stage: unit-test
   script:
