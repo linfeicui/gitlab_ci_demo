@@ -26,6 +26,9 @@ test_job:
 
 integration_test_job:
   stage: integration-test
+  variables:
+    GRADLE_MODE: "check"
+    MODE: "preview"
   script:
     - DB_PATH="CI_${MIN_CI_COMMIT_SHA^^}_${MODE^^}"
     - sh src/test/bin/create_database.sh

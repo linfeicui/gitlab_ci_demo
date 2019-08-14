@@ -1,17 +1,13 @@
 #!/bin/bash
 
-#Author: chisj
-#Time: 2015.7.22
-#Describe: Create Database
+HOSTNAME="192.168.23.102"                                           #数据库信息
+PORT="3306"
+USERNAME="root"
+PASSWORD="root123"
 
-#The username of mysql database
-USER="root"
+DBNAME="test_db_test"                                                       #数据库名称
 
-#The password of mysql database
-PASS="root123"
+#创建数据库
+create_db_sql="create database IF NOT EXISTS ${DB_PATH}"
+mysql -h${HOSTNAME}  -P${PORT}  -u${USERNAME} -p${PASSWORD} -e"${create_db_sql}"
 
-mysql -h 192.168.23.102 -P 3306 -u $USER -p $PASS << EOF >/dev/null
-
-CREATE DATABASE ${DB_PATH}
-
-EOF
