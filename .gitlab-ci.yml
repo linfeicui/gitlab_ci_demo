@@ -1,23 +1,23 @@
 image: virtuex/base_java_env:gradle-4.10.2-openjdk-7-openjdk-8-docker-18
 
 stages:
+  - run_jobs
   - integration-test
   - build
   - unit-test
-
-services:
-  - mysql
-
 variables:
-  # Configure mysql service (https://hub.docker.com/_/mysql/)
-  MYSQL_DATABASE: hello_world_test
+  MYSQL_DATABASE: your_db_name
   MYSQL_ROOT_PASSWORD: mysql
 
-connect:
-  image: mysql:5.7
+gitab_mysql_service:
+  stage: run_jobs
+  image: alpine:latest
+  services:
+    - mysql: 5.7
   script:
-    - echo "SELECT 'OK';" | mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
-
+    - mysql --version
+    - sleep 20
+    - echo "SHOW tables;"| mysql -u root -p"$MYSQL_ROOT_PASSWORD" -h 127.0.0.1 "${MYSQL_DATABASE}"
 
 
 integration_test_job:
