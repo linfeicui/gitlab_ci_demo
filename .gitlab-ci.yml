@@ -1,23 +1,21 @@
 image: virtuex/base_java_env:gradle-4.10.2-openjdk-7-openjdk-8-docker-18
 
+services:
+  - mysql:latest
+
+variables:
+  MYSQL_DATABASE: test_database # Created at image startup
+  MYSQL_ROOT_PASSWORD: super-secret-password
+
+job1:
+  script:
+    - echo Running job1...
+    - echo "SELECT 'OK';" | mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
+
 stages:
-  - run_jobs
   - integration-test
   - build
   - unit-test
-variables:
-  MYSQL_DATABASE: your_db_name
-  MYSQL_ROOT_PASSWORD: mysql
-
-gitab_mysql_service:
-  stage: run_jobs
-  image: alpine:latest
-  services:
-    - mariadb: latest
-  script:
-    - mysql --version
-    - sleep 20
-    - echo "SHOW tables;"| mysql -u root -p"$MYSQL_ROOT_PASSWORD" -h 127.0.0.1 "${MYSQL_DATABASE}"
 
 
 integration_test_job:
