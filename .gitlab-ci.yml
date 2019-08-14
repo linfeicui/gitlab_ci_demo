@@ -1,10 +1,22 @@
 image: virtuex/base_java_env:gradle-4.10.2-openjdk-7-openjdk-8-docker-18
 
 stages:
+  - prepare-data
   - integration-test
   - build
   - unit-test
-
+prepare_job:
+  stage: prepare-data
+  variables:
+    MODE: "preview"
+  script:
+    - DB_PATH="CI_${MIN_CI_COMMIT_SHA^^}_${MODE^^}"
+    - echo ${DB_PATH}
+services:
+  - name: virtuex/mysql_env:mysql-5.7-openjdk-7
+variables:
+  MYSQL_DATABASE: "<your_mysql_database>"
+  MYSQL_ROOT_PASSWORD: "<your_mysql_password>"
 
 integration_test_job:
   stage: integration-test
