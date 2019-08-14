@@ -5,25 +5,6 @@ stages:
   - unit-test
   - integration-test
 
-before_script:
-  - echo "Reset JDK..."
-  - export JAVA_HOME=$JAVA8_HOME
-  - export PATH=${JAVA_HOME}/bin:$PATH
-
-build_job:
-  stage: build
-  script:
-    - echo "Release build..."
-#    - gradle build
-    - gradle compileJava
-test_job:
-  stage: unit-test
-  script:
-    - echo "Unit Tests run..."
-    - gradle test
-    - gradle jacocoTestReport
-    - gradle -b sonarqube.gradle sonarqube -Dsonar.analysis.mode="${MODE}" -Dsonar.gitlab.project_id=$CI_PROJECT_PATH -Dsonar.gitlab.commit_sha=$CI_COMMIT_SHA -Dsonar.gitlab.ref_name=$CI_COMMIT_REF_NAME
-
 integration_test_job:
   stage: integration-test
   variables:
@@ -47,4 +28,24 @@ integration_test_job:
     - echo "unzio xxx.zip"
     - echo "sh /xx/bin/start.sh"
     - echo "start integeration testing!"
+
+before_script:
+  - echo "Reset JDK..."
+  - export JAVA_HOME=$JAVA8_HOME
+  - export PATH=${JAVA_HOME}/bin:$PATH
+
+build_job:
+  stage: build
+  script:
+    - echo "Release build..."
+#    - gradle build
+    - gradle compileJava
+test_job:
+  stage: unit-test
+  script:
+    - echo "Unit Tests run..."
+    - gradle test
+    - gradle jacocoTestReport
+    - gradle -b sonarqube.gradle sonarqube -Dsonar.analysis.mode="${MODE}" -Dsonar.gitlab.project_id=$CI_PROJECT_PATH -Dsonar.gitlab.commit_sha=$CI_COMMIT_SHA -Dsonar.gitlab.ref_name=$CI_COMMIT_REF_NAME
+
 
