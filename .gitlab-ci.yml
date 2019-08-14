@@ -1,9 +1,10 @@
 image: virtuex/base_java_env:gradle-4.10.2-openjdk-7-openjdk-8-docker-18
 
 stages:
+  - integration-test
   - build
   - unit-test
-  - integration-test
+
 
 integration_test_job:
   stage: integration-test
