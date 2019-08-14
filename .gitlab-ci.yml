@@ -27,6 +27,10 @@ test_job:
 integration_test_job:
   stage: integration-test
   script:
+    - DB_PATH="CI_${MIN_CI_COMMIT_SHA^^}_${MODE^^}"
+    - sh src/test/bin/create_database.sh
+    - gradle bootJar
+    - java -jar build/libs/gitlab.ci-1.0-SNAPSHOT.jar
     - echo "Integration testing run..."
     - echo "git clone xxxx.git"
     # 可以结合application插件，打成可执行jar
