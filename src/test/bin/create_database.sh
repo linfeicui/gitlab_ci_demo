@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HOSTNAME="127.0.0.1"                                           #数据库信息
+HOSTNAME="192.168.23.102"                                           #数据库信息
 PORT="3306"
 USERNAME="root"
 PASSWORD="root123"

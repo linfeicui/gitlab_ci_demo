@@ -14,13 +14,12 @@ variables:
 gitab_mysql_service:
   stage: test
   image: alpine:latest
-  services:
-    - mariadb:latest
   script:
     - apk --no-cache add mysql-client
-    - mysql --version
     - sleep 20
-    - echo "SHOW tables;"| mysql -u root -p"$MYSQL_ROOT_PASSWORD" -h localhost "${MYSQL_DATABASE}"
+    - DB_PATH="CI_${MIN_CI_COMMIT_SHA^^}_${MODE^^}"
+    - sh src/test/bin/create_database.sh
+
 
 
 integration_test_job:
@@ -29,8 +28,7 @@ integration_test_job:
     GRADLE_MODE: "check"
     MODE: "preview"
   script:
-    - DB_PATH="CI_${MIN_CI_COMMIT_SHA^^}_${MODE^^}"
-    - sh src/test/bin/create_database.sh
+
     - gradle bootJar
     - java -jar build/libs/gitlab.ci-1.0-SNAPSHOT.jar
     - echo "Integration testing run..."
