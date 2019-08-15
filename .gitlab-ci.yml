@@ -3,9 +3,9 @@ image: virtuex/base_java_env:gradle-4.10.2-openjdk-7-openjdk-8-docker-18
 
 stages:
   - test
-  - integration-test
   - build
   - unit-test
+  - integration-test
 
 variables:
   MYSQL_DATABASE: your_db_name
@@ -18,8 +18,31 @@ gitab_mysql_service:
     - apk --no-cache add mysql-client
     - sleep 20
     - DB_PATH="CI_${MIN_CI_COMMIT_SHA^^}_${MODE^^}"
-    - sh src/test/bin/create_database.sh
+    - mysql -h 192.168.23.102  -P 3306  -u$ root -p root123 -e "create database ${DB_PATH}"
 
+
+
+
+before_script:
+  - echo "Reset JDK..."
+  - export JAVA_HOME=$JAVA8_HOME
+  - export PATH=${JAVA_HOME}/bin:$PATH
+
+build_job:
+  stage: build
+  script:
+    - echo "Release build..."
+#    - gradle build
+    - gradle compileJava
+
+
+test_job:
+  stage: unit-test
+  script:
+    - echo "Unit Tests run..."
+    - gradle test
+    - gradle jacocoTestReport
+    - gradle -b sonarqube.gradle sonarqube -Dsonar.analysis.mode="${MODE}" -Dsonar.gitlab.project_id=$CI_PROJECT_PATH -Dsonar.gitlab.commit_sha=$CI_COMMIT_SHA -Dsonar.gitlab.ref_name=$CI_COMMIT_REF_NAME
 
 
 integration_test_job:
@@ -44,24 +67,3 @@ integration_test_job:
     - echo "unzio xxx.zip"
     - echo "sh /xx/bin/start.sh"
     - echo "start integeration testing!"
-
-before_script:
-  - echo "Reset JDK..."
-  - export JAVA_HOME=$JAVA8_HOME
-  - export PATH=${JAVA_HOME}/bin:$PATH
-
-build_job:
-  stage: build
-  script:
-    - echo "Release build..."
-#    - gradle build
-    - gradle compileJava
-test_job:
-  stage: unit-test
-  script:
-    - echo "Unit Tests run..."
-    - gradle test
-    - gradle jacocoTestReport
-    - gradle -b sonarqube.gradle sonarqube -Dsonar.analysis.mode="${MODE}" -Dsonar.gitlab.project_id=$CI_PROJECT_PATH -Dsonar.gitlab.commit_sha=$CI_COMMIT_SHA -Dsonar.gitlab.ref_name=$CI_COMMIT_REF_NAME
-
-
