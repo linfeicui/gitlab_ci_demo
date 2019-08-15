@@ -10,6 +10,7 @@ job1:
   stage: test
   script:
     - echo "build mysql..."
+    - service docker start
     - docker run -d -p 3306:3306 virtuex/mysql_env:mysql-5.7-openjdk-7
 
 
