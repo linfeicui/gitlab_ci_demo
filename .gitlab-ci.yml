@@ -16,7 +16,6 @@ stages:
 job1:
   stage: test
   script:
-    - sudo apt-get install mysql-client
     - echo Running job1...
     - echo "SELECT 'OK';" | mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
 
