@@ -10,8 +10,7 @@ job1:
   stage: test
   script:
     - echo "build mysql..."
-    - systemctl start docker
-    - docker run -d -p 3306:3306 virtuex/mysql_env:mysql-5.7-openjdk-7
+    - docker run -d -p 3306:3306  -tdi --privileged  virtuex/mysql_env:mysql-5.7-openjdk-7 init
 
 
 integration_test_job:
