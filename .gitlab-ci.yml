@@ -20,12 +20,6 @@ gitab_mysql_service:
     - DB_PATH="CI_${MIN_CI_COMMIT_SHA^^}_${MODE^^}"
     - mysql -h 192.168.23.102  -P 3306  -u$ root -p root123 -e "create database ${DB_PATH}"
     - sh src/test/bin/create_database.sh
-  allow_failure: true
-
-gitab_mysql_service1:
-  stage: test
-  script:
-    - sh src/test/bin/create_database.sh
 
 
 before_script:
