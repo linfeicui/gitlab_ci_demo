@@ -18,7 +18,7 @@ gitab_mysql_service:
     - apk --no-cache add mysql-client
     - sleep 20
     - DB_PATH="CI_${MIN_CI_COMMIT_SHA^^}_${MODE^^}"
-    - mysql -h 192.168.23.102  -P 3306  -u$ root -p root123 -e "create database ${DB_PATH}"
+    - mysql -h 192.168.23.102  -P 3306  -u root -p root123 -e "create database ${DB_PATH}"
 
 
 before_script:
