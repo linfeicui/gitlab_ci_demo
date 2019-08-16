@@ -3,7 +3,7 @@ server:
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://127.0.0.1:3306/${TEST_DB:CI_TEST}?useUnicode=true&characterEncoding=utf-8&useSSL=true
+    url: jdbc:mysql://127.0.0.1:3306/${CI_COMMIT_SHA:CI_TEST}?useUnicode=true&characterEncoding=utf-8&useSSL=true
     username : root
     password : xda265856
     driverClassName : com.mysql.jdbc.Driver
