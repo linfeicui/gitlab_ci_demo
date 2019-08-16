@@ -15,9 +15,8 @@ gitab_mysql_service:
   stage: test
   image: alpine:latest
   script:
-    - sh src/test/bin/create_database.sh
     - apk --no-cache add mysql-client
-
+    - sh src/test/bin/create_database.sh
 
 
 before_script:
