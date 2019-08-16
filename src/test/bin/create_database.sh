@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 HOSTNAME="192.168.23.102"  #数据库信息
 PORT="3306"
 USERNAME="root"

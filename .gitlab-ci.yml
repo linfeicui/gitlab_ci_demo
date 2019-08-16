@@ -16,8 +16,7 @@ gitab_mysql_service:
   image: alpine:latest
   script:
     - apk --no-cache add mysql-client
-    - sleep 20
-    - mysql -h 192.168.23.102  -P 3306  -u root -p root123 -e "create database test"
+    - sh src/test/bin/create_databash.sh
 
 
 before_script:
