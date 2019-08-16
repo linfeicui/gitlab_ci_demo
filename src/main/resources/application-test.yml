@@ -1,11 +1,11 @@
 server:
-  port: 8881
+  port: 8880
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://127.0.0.1:3306/student?useUnicode=true&characterEncoding=utf-8&useSSL=true
+    url: jdbc:mysql://192.168.23.102:3306/${CI_COMMIT_SHA}?useUnicode=true&characterEncoding=utf-8&useSSL=true
     username : root
-    password : xda265856
+    password : root123
     driverClassName : com.mysql.jdbc.Driver
   jpa:
     hibernate:
