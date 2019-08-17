@@ -2,17 +2,14 @@ image: virtuex/base_java_env:gradle-4.10.2-openjdk-7-openjdk-8-docker-18
 
 
 stages:
-  - test
+  - build_db
   - build
   - unit-test
   - integration-test
 
-variables:
-  MYSQL_DATABASE: your_db_name
-  MYSQL_ROOT_PASSWORD: mysql
 
 gitab_mysql_service:
-  stage: test
+  stage: build_db
   image: alpine:latest
   script:
     - apk --no-cache add mysql-client
@@ -28,7 +25,7 @@ build_job:
   stage: build
   script:
     - echo "Release build..."
-    - gradle bootJar
+    - gradle testClasses
 
 test_job:
   stage: unit-test
@@ -44,6 +41,7 @@ integration_test_job:
     GRADLE_MODE: "check"
     MODE: "preview"
   script:
+    - gradle bootJar
     - java -jar --spring.profiles.active=test build/libs/gitlab.ci-1.0-SNAPSHOT.jar
     - echo "Integration testing run..."
     - echo "git clone xxxx.git"
