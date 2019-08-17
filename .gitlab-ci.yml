@@ -43,7 +43,7 @@ integration_test_job:
     MODE: "preview"
   script:
     - gradle bootJar
-    - java -jar --spring.profiles.active=test build/libs/gitlab.ci-1.0-SNAPSHOT.jar
+    - java -jar --spring.profiles.active=test build/libs/ci_test-1.0-SNAPSHOT.jar
     - echo "Integration testing run..."
     - echo "git clone xxxx.git"
     # 可以结合application插件，打成可执行jar
