@@ -33,6 +33,7 @@ test_job:
     - echo "Unit Tests run..."
 #    - gradle test
     - gradle jacocoTestReport
+    - gradle testClasses
     - gradle -b sonarqube.gradle sonarqube -Dsonar.analysis.mode="${MODE}" -Dsonar.gitlab.project_id=$CI_PROJECT_PATH -Dsonar.gitlab.commit_sha=$CI_COMMIT_SHA -Dsonar.gitlab.ref_name=$CI_COMMIT_REF_NAME
 
 integration_test_job:
@@ -47,8 +48,7 @@ integration_test_job:
     - echo "git clone xxxx.git"
     # 可以结合application插件，打成可执行jar
     - echo "gradle distZip"
-    # zipb包的目录大概是：
-    #  - xxx.zip
+    # zipb包的目录大概是：#  - xxx.zip
     #     -/bin
     #        -/启动脚本
     #     -/lib
