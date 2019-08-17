@@ -31,7 +31,6 @@ build_job:
 #    - gradle build
     - gradle compileJava
 
-
 test_job:
   stage: unit-test
   script:
@@ -39,7 +38,6 @@ test_job:
     - gradle test
     - gradle jacocoTestReport
     - gradle -b sonarqube.gradle sonarqube -Dsonar.analysis.mode="${MODE}" -Dsonar.gitlab.project_id=$CI_PROJECT_PATH -Dsonar.gitlab.commit_sha=$CI_COMMIT_SHA -Dsonar.gitlab.ref_name=$CI_COMMIT_REF_NAME
-
 
 integration_test_job:
   stage: integration-test
