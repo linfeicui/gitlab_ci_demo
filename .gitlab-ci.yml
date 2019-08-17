@@ -28,7 +28,7 @@ build_job:
   stage: build
   script:
     - echo "Release build..."
-    - gradle build
+    - gradle bootJar
 
 test_job:
   stage: unit-test
@@ -44,7 +44,6 @@ integration_test_job:
     GRADLE_MODE: "check"
     MODE: "preview"
   script:
-    - gradle bootJar
     - java -jar --spring.profiles.active=test build/libs/gitlab.ci-1.0-SNAPSHOT.jar
     - echo "Integration testing run..."
     - echo "git clone xxxx.git"
