@@ -45,7 +45,7 @@ integration_test_job:
     - gradle bootJar
     - export JAVA_HOME=$JAVA8_HOME
     - export PATH=${JAVA_HOME}/bin:$PATH
-    - java -jar --spring.profiles.active=test build/libs/ci_test-1.0-SNAPSHOT.jar
+    - java -jar -Dspring.profiles.active=test build/libs/ci_test-1.0-SNAPSHOT.jar
     - echo "Integration testing run..."
     - echo "git clone xxxx.git"
     # 可以结合application插件，打成可执行jar
